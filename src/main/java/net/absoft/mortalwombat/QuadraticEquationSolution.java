@@ -1,38 +1,45 @@
 package net.absoft.mortalwombat;
 
-public class Solution {
+import java.util.Objects;
 
-    double a;
-    double b;
-    double c;
-    double D;
+public class QuadraticEquationSolution {
 
-    static public double findDiscriminant (double a, double b, double c) {
-        double D = Math.pow(b, 2) - (4 * a * c);
-        System.out.println(D);
-        return D;
+    private final double x1;
+    private final double x2;
+
+
+    public QuadraticEquationSolution(double x1, double x2) {
+        this.x1 = x1;
+        this.x2 = x2;
     }
 
-    static double[] solve (double a, double b, double discriminant) {
-        double x1, x2;
-        double[] results = new double[2];
+    public double getX1() {
+        return x1;
+    }
 
-        if(a != 0) {
-            if(discriminant > 0) {
-                x1 = (-b + Math.sqrt(discriminant))/(2 * a);
-                x2 = (-b - Math.sqrt(discriminant))/(2 * a);
-                results[0] = x1;
-                results[1] = x2;
-                System.out.println("x1 = " + x1 + "\n" + "x2 = " + x2);
-            } else if(discriminant == 0) {
-                x1 = -b/(2 * a);
-                results[0] = x1;
-                System.out.println("x1 = " + x1);
-            } else {
-                System.out.println("No real roots");
-            }
-        } else {
-            System.out.println("Error: division by zero.");
-        }return results;
+    public double getX2() {
+        return x2;
+    }
+
+    @Override
+    public String toString() {
+        return "QuadraticEquationSolution{" +
+                "x1=" + x1 +
+                ", x2=" + x2 +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QuadraticEquationSolution solution = (QuadraticEquationSolution) o;
+        return (Double.compare(solution.x1, x1) == 0 || Double.compare(solution.x1, x2) == 0)
+                && (Double.compare(solution.x2, x2) == 0 || Double.compare(solution.x2, x1) == 0);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x1, x2);
     }
 }

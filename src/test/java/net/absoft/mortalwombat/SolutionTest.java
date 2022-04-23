@@ -1,43 +1,41 @@
 package net.absoft.mortalwombat;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.*;
 
 public class SolutionTest {
 
     @Test
-    public void positiveDiscriminatWithTwoRoots () {
-        double a = 1;
-        double b = -4;
-        double c = -5;
-        double discriminant = Solution.findDiscriminant(a, b, c);
-        System.out.println(discriminant);
-        double[] expectedResult = {5, -1};
-        double[] result = Solution.solve(a, b, discriminant);
-        Assert.assertEquals(expectedResult, result, "quadratic equation has no solution");
+    public void solveQuadraticEquationWithPositiveDiscriminant() {
+        QuadraticEquationSolution expectedResult = new QuadraticEquationSolution(5, -1);
+        QuadraticEquationSolver solver = new QuadraticEquationSolver();
+        QuadraticEquationSolution solution = solver.solveQuadraticEquation(1, -4, -5);
+        assertEquals(expectedResult, solution);
+
+        // assertTrue(solution.getX1() == 5, "Unexpected x1");
+        // assertTrue(solution.getX2() == -1, "Unexpected x2");
     }
 
     @Test
-    public void DiscriminatWith1Root () {
-        double a = 4;
-        double b = -4;
-        double c = 1;
-        double discriminant = Solution.findDiscriminant(a, b, c);
-        System.out.println(discriminant);
-        double[] expectedResult = {0.5, 0};
-        double[] result = Solution.solve(a, b, discriminant);
-        Assert.assertEquals(expectedResult, result, "quadratic equation has no solution");
+    public void solveQuadraticEquationWithNegativeDiscriminant() {
+        QuadraticEquationSolver solver = new QuadraticEquationSolver();
+        QuadraticEquationSolution solution = solver.solveQuadraticEquation(3, -4, 2);
+        assertNull(solution, "Solution should be null");
     }
 
     @Test
-    public void negativeDiscriminatWithNoRoots () {
-        double a = 3;
-        double b = -4;
-        double c = 2;
-        double discriminant = Solution.findDiscriminant(a, b, c);
-        System.out.println(discriminant);
-        double[] expectedResult = {0,0};
-        double[] result = Solution.solve(a, b, discriminant);
-        Assert.assertEquals(expectedResult, result, "quadratic equation has no solution");
+    public  void solveQuadraticEquationWithDiscriminantEqualToZero() {
+        QuadraticEquationSolution expectedResult = new QuadraticEquationSolution(1, 1);
+        QuadraticEquationSolver solver = new QuadraticEquationSolver();
+        QuadraticEquationSolution solution = solver.solveQuadraticEquation(1, -2, 1);
+        assertEquals(expectedResult, solution);
     }
+
+    @Test
+    public  void QuadraticEquationShouldNotHaveFirstArgumentAsZero() {
+        QuadraticEquationSolver solver = new QuadraticEquationSolver();
+        assertThrows(IllegalArgumentException.class, () -> solver.solveQuadraticEquation(0, 2, 1));
+    }
+
 }
